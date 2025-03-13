@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -18,7 +18,7 @@ export class AuthController {
         return this.authService.getAllRoles();
     }
     @Get('roles/:id')
-    getRolePermissions(@Param('id') id: number) {
+    getRolePermissions(@Param('id',new ParseIntPipe({errorHttpStatusCode:HttpStatus.NOT_ACCEPTABLE})) id: number) {
         return this.authService.getRoleWithPermissions(id);
     }
 }
