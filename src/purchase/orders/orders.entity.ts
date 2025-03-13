@@ -10,9 +10,15 @@ export class Order {
     @ManyToOne(() => Product, product => product.orders)
     product: Product;
 
-    // @ManyToOne(() => User, user => user.orders)
-    // user: User;
+    @ManyToOne(() => User, user => user.orders)
+    user: User;
 
     @Column('decimal')
     amount: number;
+
+    @Column()
+    created_at: Date;
+
+    @Column()
+    updated_at: Date;
 }
