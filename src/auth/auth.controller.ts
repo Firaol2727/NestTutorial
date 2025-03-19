@@ -1,12 +1,15 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, UsePipes } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { SignInDTO } from './dto/signIn.dto';
+import { ZodValidationPipe } from 'nestjs-zod';
 
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) {}
     @HttpCode(HttpStatus.OK)
     @Post('login')
-    signIn(@Body() signInDto: Record<string, any>) {
+     @UsePipes( new ZodValidationPipe(SignInDTO))
+    signIn(@Body() signInDto: SignInDTO) {
         return this.authService.signIn(signInDto.username, signInDto.password);
     }
     @Get('permissions')

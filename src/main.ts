@@ -2,9 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { patchNestJsSwagger } from 'nestjs-zod';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
+  patchNestJsSwagger();
   const config=new DocumentBuilder()
   .setTitle('API')
   .setDescription('API description')

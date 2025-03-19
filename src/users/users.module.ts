@@ -9,6 +9,7 @@ import { UserResolver } from './users.resolver';
 import { RoleService } from './roles.service';
 // import { RolePermission } from './entity/rolepermissions.entity';
 import { PermissionsService } from './permission.service';
+import { AuthModule } from 'src/auth/auth.module';
 @Module({
   imports:[TypeOrmModule.forFeature([User,Role,Permissions])],
   providers: [UsersService,UserResolver,RoleService,PermissionsService],

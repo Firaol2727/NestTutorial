@@ -16,8 +16,7 @@ export class RoleService {
             const manager =  queryRunner.manager;
             return await manager.findOne(Role, {where:query});
         }else{
-            const manager =this.roleRepository;
-            return await manager.findOne({where:query,relations:["permissions"]});
+            return await this.roleRepository.findOne({where:query,relations:["permissions"]});
         }
     } 
     async findMany(

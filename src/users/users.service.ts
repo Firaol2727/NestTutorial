@@ -1,12 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import {User} from './entity/users.entity'
+import { RoleService } from './roles.service';
 @Injectable()
 export class UsersService {
     constructor (
         @InjectRepository(User)
         private usersRepository: Repository<User>,
+        private roleService:RoleService
     ){}
     async findOne(
         query: any,
@@ -36,9 +38,17 @@ export class UsersService {
     async create(userData: Partial<User>, queryRunner?: QueryRunner): Promise<User> {
         if (queryRunner) {
             const manager =  queryRunner.manager;
+            let role = await this.roleService.findOne({id:userData.roleId});
+            if(!role){
+                throw new NotFoundException("Role not found");
+            }
             const user = manager.create(User, userData);
             return await manager.save(User, user);
         }else{
+            let role = await this.roleService.findOne({id:userData.roleId});
+            if(!role){
+                throw new NotFoundException("Role not found");
+            }
             const manager =this.usersRepository;
             const user = manager.create(userData);
             return await manager.save(user);

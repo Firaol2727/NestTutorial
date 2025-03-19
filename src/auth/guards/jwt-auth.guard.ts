@@ -1,4 +1,4 @@
-import { ExecutionContext, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
+import { ExecutionContext, Inject, Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { AuthGuard } from "@nestjs/passport";
 import { UsersService } from 'src/users/users.service';
@@ -24,6 +24,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
     // Fetch full user details from DB
     const fullUser = await this.usersService.findOne({id:user.id});
+    Logger.warn("fullUser ",fullUser);
     if (!fullUser) {
       throw new UnauthorizedException('User not found');
     }
